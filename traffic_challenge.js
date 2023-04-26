@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const automaticTimer = setInterval(automaticSeries, 1000);
 
-    function automaticSeries(currentLight) {
+    function automaticSeries() {
       if (goLight.classList.contains("on")) {
         stopLight.classList.remove("on");
         cautionLight.classList.add("on");
