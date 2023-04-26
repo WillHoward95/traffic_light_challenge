@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const goLight = document.querySelector(".light.go");
 
   const goAutomaticButton = document.getElementById("goAutomatic");
+  const stopAutomatic = document.getElementById("stopAutomatic");
 
   //turn the light on/off with the button
   stopButton.addEventListener("click", (e) => {
@@ -92,32 +93,39 @@ document.addEventListener("DOMContentLoaded", () => {
     stopLight.classList.remove("on");
     cautionLight.classList.remove("on");
     goLight.classList.add("on");
-    let currentLight = goLight;
 
-    setInterval(function automaticSeries() {
-      if (currentLight === goLight) {
+    const automaticTimer = setInterval(automaticSeries, 1000);
+
+    function automaticSeries(currentLight) {
+      if (goLight.classList.contains("on")) {
         stopLight.classList.remove("on");
         cautionLight.classList.add("on");
         goLight.classList.remove("on");
-        currentLight = cautionLight;
       } else if (
-        currentLight === cautionLight &&
+        cautionLight.classList.contains("on") &&
         stopLight.classList.contains("on")
       ) {
         stopLight.classList.remove("on");
         cautionLight.classList.remove("on");
         goLight.classList.add("on");
         currentLight = stopLight;
-      } else if (currentLight === cautionLight) {
+      } else if (cautionLight.classList.contains("on")) {
         stopLight.classList.add("on");
         cautionLight.classList.remove("on");
         goLight.classList.remove("on");
         currentLight = stopLight;
-      } else if (currentLight === stopLight) {
+      } else if (stopLight.classList.contains("on")) {
         cautionLight.classList.add("on");
         goLight.classList.remove("on");
         currentLight = cautionLight;
       }
-    }, 1000);
+    }
+
+    stopAutomatic.addEventListener("click", () => {
+      clearInterval(automaticTimer);
+      stopLight.classList.add("on");
+      cautionLight.classList.remove("on");
+      goLight.classList.remove("on");
+    });
   });
 });
