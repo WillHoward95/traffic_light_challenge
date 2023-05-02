@@ -96,28 +96,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const automaticTimer = setInterval(automaticSeries, 1000);
 
+    const lightArray = [
+      stopLight,
+      cautionLight,
+      undefined,
+      cautionLight,
+      undefined,
+      cautionLight,
+      goLight,
+      stopLight,
+      goLight,
+    ];
+
+    let position = 0;
+
     function automaticSeries() {
-      if (goLight.classList.contains("on")) {
-        stopLight.classList.remove("on");
-        cautionLight.classList.add("on");
-        goLight.classList.remove("on");
-      } else if (
-        cautionLight.classList.contains("on") &&
-        stopLight.classList.contains("on")
-      ) {
-        stopLight.classList.remove("on");
-        cautionLight.classList.remove("on");
-        goLight.classList.add("on");
-        currentLight = stopLight;
-      } else if (cautionLight.classList.contains("on")) {
-        stopLight.classList.add("on");
-        cautionLight.classList.remove("on");
-        goLight.classList.remove("on");
-        currentLight = stopLight;
-      } else if (stopLight.classList.contains("on")) {
-        cautionLight.classList.add("on");
-        goLight.classList.remove("on");
-        currentLight = cautionLight;
+      stopLight.classList.remove("on");
+      cautionLight.classList.remove("on");
+      goLight.classList.remove("on");
+
+      if (lightArray[position]) {
+        lightArray[position].classList.add("on");
+      }
+
+      position++;
+
+      if (position > lightArray.length - 1) {
+        position = 0;
       }
     }
 
